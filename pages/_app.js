@@ -1,7 +1,10 @@
-import '../styles/globals.css'
+import { GlobalStyle } from "../design"
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+const Saboteur = ({ Component, pageProps }) => {
+  return <>
+    <GlobalStyle />
+    <Component {...pageProps} /> 
+  </>
 }
 
-export default MyApp
+export default Saboteur
