@@ -11,8 +11,8 @@ import Footer from "../components/organisms/footer"
 import Dusk from "../components/organisms/scenes/dusk"
 import Sunset from "../components/organisms/scenes/sunset"*/
 
-const Sunset = dynamic(() => import('../components/organisms/scenes/Sunset'), {ssr: false});
-const Dusk = dynamic(() => import('../components/organisms/scenes/Dusk'), {ssr: false});
+const Sunset = dynamic(() => import('../components/organisms/scenes/sunset'), {ssr: false});
+const Dusk = dynamic(() => import('../components/organisms/scenes/dusk'), {ssr: false});
 
 const Home = () => {
   return <Container>
