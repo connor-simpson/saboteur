@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styled, { css, keyframes } from "styled-components"
+import { fonts } from "../../../design/fonts"
+import { generateId } from "../../../helpers"
 
 const walking = keyframes`
     0%, 100% {
@@ -26,43 +28,45 @@ const walking = keyframes`
 `
 
 const Avatar = styled.div`
+    background:url('./images/avatars/still.png');
     width: 73px;
     height: 144px;
     position: absolute;
     bottom: 0;
-    left: ${props=>props.player.posX}px;
+    left: 0px;
 
-    ${props => {
+    &:after {
+        ${fonts.small}
+        content: '${props=>props.name}';
+        position: absolute;
+        top: -25px;
+        width: 100%;
+        text-shadow: 3px 3px 0px black;
+        color: white;
+    }
 
-        if(props.player.direction === 'left'){
-            return css`
-                transform: scaleX(-1);
-            `
-        }
-    }}
+    &.walking {
+        animation-name: ${walking};
+        animation-duration: 0.4s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-delay: 0;
+    }
 
-    ${props => {
-        if(props.player.walking){
-            return css`
-                animation-name: ${walking};
-                animation-duration: 0.4s;
-                animation-iteration-count: infinite;
-                animation-timing-function: linear;
-                animation-delay: 0;
-            `
+    &.left {
+        transform: scaleX(-1);
+
+        &:after {
+            transform: scaleX(-1);
         }
-    }}
-    ${props => {
-        if(props.player.walking === false){
-            return css`
-                background:url('./images/avatars/still.png');
-            `
-        }
-    }}
+    }
 `
 
-const Player = ({ me = false, name }) => {
-
+const Player = ({ me = false, name = "Player" }) => {
+    
+    const playerId = useRef(generateId())
+    const playerMoving = useRef(false)
+    const playerPosX = useRef(0)
 
     const [playerPosition, setPlayerPosition] = useState({
         walking: false,
@@ -72,52 +76,76 @@ const Player = ({ me = false, name }) => {
 
     const stopMoving = e => {
         if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-            setPlayerPosition({
-                walking: false,
-                direction: playerPosition.direction,
-                posX: playerPosition.posX
-            })
+            const playerOnDom = document.getElementById(playerId.current)
+            playerOnDom.classList.remove("walking")
         }
     }
 
-    const walkForward = e => {
-        if(e.key === "ArrowRight"){
-            
-            setPlayerPosition({
-                walking: true,
-                direction: "right",
-                posX: playerPosition.posX + 15
-            })
-        }
-    }
-    const walkBackward = e => {
-        if(e.key === "ArrowLeft"){
-            setPlayerPosition({
-                walking: true,
-                direction: "left",
-                posX: playerPosition.posX - 15
-            })
-            
-        }
-    }
-
-    useEffect( () => {
+    const walk = (e, bufferPosX = false) => {
         
-        document.addEventListener("keydown", walkForward)
-        document.addEventListener("keydown", walkBackward)
-        document.addEventListener("keyup", stopMoving)
+        if (["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+
+        const direction = e.key === "ArrowRight" ? 'right' : 'left'
+        const change = e.key === "ArrowRight" ? 3 : -3
+        const currentPosX = bufferPosX === false ? playerPosX.current : bufferPosX
+        const playerOnDom = document.getElementById(playerId.current)
+
+        let posX = (currentPosX + change)
+
+        if(posX < 0){
+            posX = 0
+        }
+
+        if(posX > 1128){
+            posX = 1128
+        }
+
+        playerPosX.current = posX;
+
+        playerOnDom.style.left = `${playerPosX.current}px`;
+        playerOnDom.classList.add("walking")
+        playerOnDom.classList.remove("left", "right")
+        playerOnDom.classList.add(direction)
+        
+
+        if(playerMoving.current){
+            setTimeout(() => walk(e, playerPosX.current), 0)
+        }else{
+            stopMoving(e);
+        }
+        
+    }
+  
+    useEffect(() => {
+        
+        window.addEventListener("keydown", e => {
+            if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+
+           if(!playerMoving.current){
+                playerMoving.current = true;
+                walk(e)
+           }
+
+           window.addEventListener("keyup", e => {
+            if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+               if(playerMoving.current){
+                   playerMoving.current = false
+               }
+            }, false)
+
+        }, false)
+            
+  
 
         return () => {
-            document.removeEventListener("keydown", walkForward)
-            document.removeEventListener("keydown", walkBackward)
-            document.removeEventListener("keyup", stopMoving)
+            window.removeEventListener("keydown", walk)
+            window.removeEventListener("keyup", stopMoving)
         }
 
     }, [playerPosition])
+    
 
-    return <>
-        <Avatar player={playerPosition} />
-    </>
+    return <Avatar id={playerId.current} name={name} />
 }
 
 export default Player

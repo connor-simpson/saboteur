@@ -28,6 +28,7 @@ const Container = styled.div`
     border: 3px solid rgba(0,0,0,0.1);
     box-shadow: 5px 5px 0px rgba(0,0,0,0.1);
     gap: 15px;
+
     ${props => {
         if(props.now <= 10 && props.status === 1){
             return css`
