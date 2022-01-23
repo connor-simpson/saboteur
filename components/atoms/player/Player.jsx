@@ -117,24 +117,27 @@ const Player = ({ me = false, name = "Player" }) => {
     }
   
     useEffect(() => {
-        
-        window.addEventListener("keydown", e => {
-            if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+        if(me){
+            window.addEventListener("keydown", e => {
+                if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
 
-           if(!playerMoving.current){
-                playerMoving.current = true;
-                walk(e)
-           }
+            if(!playerMoving.current){
+                    playerMoving.current = true;
+                    walk(e)
+            }
 
-           window.addEventListener("keyup", e => {
-            if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
-               if(playerMoving.current){
-                   playerMoving.current = false
-               }
+            window.addEventListener("keyup", e => {
+                if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+
+                if(playerMoving.current){
+                    playerMoving.current = false
+                }
+
+                }, false)
+
             }, false)
-
-        }, false)
-            
+                
+        }
   
 
         return () => {
