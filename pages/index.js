@@ -3,7 +3,6 @@ import Container from "../components/atoms/container"
 import UserBar from "../components/molecules/userbar"
 import dynamic from "next/dynamic"
 import PlayerLayer from "../components/organisms/playerLayer";
-import Player from "../components/atoms/player";
 import { usePlayer } from "../contexts/playerContext";
 import Login from "../components/organisms/login";
 
