@@ -20,15 +20,16 @@ const PlayerLayer = ({ children }) => {
     const [players, setPlayers] = useState([])
 
 
-    const playerAdded = (data) => {
-        if(data){
-            let playersClone = players;
-            playersClone.push(<Player me={false} name={data.name} />)
-            setPlayers(playersClone)
-        }   
-    }
-
     useEffect(() => {
+
+        const playerAdded = (data) => {
+            if(data){
+                let playersClone = players;
+                playersClone.push(<Player me={false} name={data.name} />)
+                setPlayers(playersClone)
+            }   
+        }
+
         if(!connected) return
 
         if(!clientJoined){
