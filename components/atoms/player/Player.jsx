@@ -74,49 +74,51 @@ const Player = ({ me = false, name = "Player" }) => {
         posX: 0
     })
 
-    const stopMoving = e => {
-        if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-            const playerOnDom = document.getElementById(playerId.current)
-            playerOnDom.classList.remove("walking")
-        }
-    }
-
-    const walk = (e, bufferPosX = false) => {
-        
-        if (["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
-
-        const direction = e.key === "ArrowRight" ? 'right' : 'left'
-        const change = e.key === "ArrowRight" ? 3 : -3
-        const currentPosX = bufferPosX === false ? playerPosX.current : bufferPosX
-        const playerOnDom = document.getElementById(playerId.current)
-
-        let posX = (currentPosX + change)
-
-        if(posX < 0){
-            posX = 0
-        }
-
-        if(posX > 1128){
-            posX = 1128
-        }
-
-        playerPosX.current = posX;
-
-        playerOnDom.style.left = `${playerPosX.current}px`;
-        playerOnDom.classList.add("walking")
-        playerOnDom.classList.remove("left", "right")
-        playerOnDom.classList.add(direction)
-        
-
-        if(playerMoving.current){
-            setTimeout(() => walk(e, playerPosX.current), 0)
-        }else{
-            stopMoving(e);
-        }
-        
-    }
   
     useEffect(() => {
+
+        const stopMoving = e => {
+            if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
+                const playerOnDom = document.getElementById(playerId.current)
+                playerOnDom.classList.remove("walking")
+            }
+        }
+
+        const walk = (e, bufferPosX = false) => {
+        
+            if (["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
+    
+            const direction = e.key === "ArrowRight" ? 'right' : 'left'
+            const change = e.key === "ArrowRight" ? 3 : -3
+            const currentPosX = bufferPosX === false ? playerPosX.current : bufferPosX
+            const playerOnDom = document.getElementById(playerId.current)
+    
+            let posX = (currentPosX + change)
+    
+            if(posX < 0){
+                posX = 0
+            }
+    
+            if(posX > 1128){
+                posX = 1128
+            }
+    
+            playerPosX.current = posX;
+    
+            playerOnDom.style.left = `${playerPosX.current}px`;
+            playerOnDom.classList.add("walking")
+            playerOnDom.classList.remove("left", "right")
+            playerOnDom.classList.add(direction)
+            
+    
+            if(playerMoving.current){
+                setTimeout(() => walk(e, playerPosX.current), 0)
+            }else{
+                stopMoving(e);
+            }
+            
+        }
+
         if(me){
             window.addEventListener("keydown", e => {
                 if(["ArrowLeft", "ArrowRight"].indexOf(e.key) === -1) return;
