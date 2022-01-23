@@ -5,6 +5,7 @@ import dynamic from "next/dynamic"
 import PlayerLayer from "../components/organisms/playerLayer";
 import { usePlayer } from "../contexts/playerContext";
 import Login from "../components/organisms/login";
+import { useSocketServer } from "../contexts/socketServerContext";
 
 const Sunset = dynamic(() => import('../components/organisms/scenes/sunset'), {ssr: false});
 const Dusk = dynamic(() => import('../components/organisms/scenes/dusk'), {ssr: false});
@@ -12,22 +13,28 @@ const Dusk = dynamic(() => import('../components/organisms/scenes/dusk'), {ssr: 
 const Home = () => {
 
   const {playerName, setPlayerName} = usePlayer()
+  const {connected} = useSocketServer()
 
   
-  if(playerName){
+  if(!connected){
+    return "Couldn't connect to the server."
+  }else{
+
+    if(playerName){
+      return <Container>
+        <Dusk>
+          <UserBar />
+          <PlayerLayer />
+        </Dusk>
+      </Container>
+    }
+    
     return <Container>
-      <Dusk>
-        <UserBar />
-        <PlayerLayer />
-      </Dusk>
+      <Sunset>
+        <Login />
+      </Sunset>
     </Container>
   }
-  
-  return <Container>
-    <Sunset>
-      <Login />
-    </Sunset>
-  </Container>
 }
 
 export default Home
