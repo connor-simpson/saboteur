@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components"
 import { usePlayer } from "../../../contexts/playerContext"
 import { fonts } from "../../../design/fonts"
+import Image from "next/image"
 
 
 const Container = styled.div`
@@ -64,8 +65,8 @@ const User = () => {
     return <Container>
         <Divider>{playerName}</Divider>
         <Options>
-            <Option><img src={`../images/icons/character.png`} /></Option>
-            <Option><img src={`../images/icons/arrow_right_curve.png`} /></Option>
+            <Option><Image src={`../images/icons/character.png`} /></Option>
+            <Option><Image src={`../images/icons/arrow_right_curve.png`} /></Option>
         </Options>
     </Container>
 }
