@@ -13,9 +13,9 @@ const Form = styled.form`
 
 const Login = () => {
 
-    const { player, setPlayerName } = usePlayer()
-    const [playerNameInput, setPlayerNameInput] = useState("")
-    const {connected, messages, sendMessage} = useSocketServer()
+    const { setPlayerName } = usePlayer()
+    const [ playerNameInput, setPlayerNameInput ] = useState("")
+    const { connected } = useSocketServer()
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -27,7 +27,6 @@ const Login = () => {
     }
 
     return <Form onSubmit={handleSubmit}>
-        {player}
         <Input placeholder="Enter player name" onChange={(e) => setPlayerNameInput(e.target.value)} />
     </Form>
 

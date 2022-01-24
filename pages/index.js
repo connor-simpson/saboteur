@@ -1,10 +1,12 @@
 
+import dynamic from "next/dynamic"
+
 import Container from "../components/atoms/container"
 import UserBar from "../components/molecules/userbar"
-import dynamic from "next/dynamic"
 import PlayerLayer from "../components/organisms/playerLayer";
-import { usePlayer } from "../contexts/playerContext";
 import Login from "../components/organisms/login";
+
+import { usePlayer } from "../contexts/playerContext";
 import { useSocketServer } from "../contexts/socketServerContext";
 
 const Sunset = dynamic(() => import('../components/organisms/scenes/sunset'), {ssr: false});
@@ -12,8 +14,8 @@ const Dusk = dynamic(() => import('../components/organisms/scenes/dusk'), {ssr: 
 
 const Home = () => {
 
-  const {playerName, setPlayerName} = usePlayer()
-  const {connected} = useSocketServer()
+  const { playerName } = usePlayer()
+  const { connected } = useSocketServer()
 
   
   if(!connected){

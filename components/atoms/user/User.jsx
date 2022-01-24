@@ -65,8 +65,8 @@ const User = () => {
     return <Container>
         <Divider>{playerName}</Divider>
         <Options>
-            <Option><Image src={`../images/icons/character.png`} /></Option>
-            <Option><Image src={`../images/icons/arrow_right_curve.png`} /></Option>
+            <Option><Image src={`/../../../public/images/icons/character.png`} width={30} height={30} /></Option>
+            <Option><Image src={`/../../../public/images/icons/arrow_right_curve.png`} width={30} height={30} /></Option>
         </Options>
     </Container>
 }
