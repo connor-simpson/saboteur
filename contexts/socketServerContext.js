@@ -39,7 +39,7 @@ const Console = styled.ul`
 
 export const SocketServerProvider = ({ children }) => {
 
-    const ws = useMemo(() => new WebSocket("ws://82.17.164.45:1050"), [])
+    const ws = useMemo(() => new WebSocket("wss://82.17.164.45:1050"), [])
     const [connected, setConnected] = useState(false);
     const [messages, setMessages] = useState([])
     

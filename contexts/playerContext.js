@@ -1,5 +1,4 @@
 import { useContext, createContext,  useState } from "react"
-import styled from "styled-components"
 
 export const PlayerContext = createContext({})
 
