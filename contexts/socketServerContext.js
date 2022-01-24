@@ -1,6 +1,5 @@
 import { useContext, createContext, useEffect, useRef, useState, useMemo } from "react"
 import styled from "styled-components"
-import { usePlayer } from "./playerContext"
 
 export const SocketServerContext = createContext({})
 
